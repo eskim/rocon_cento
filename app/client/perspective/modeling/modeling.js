@@ -1,4 +1,6 @@
-
+Template.modeling.preserve({
+  'iframe[src]': function(node){ return node.src; }
+});
 Template.modeling.events({
   'click form[name=modeling_upload] button': function(e, t){
     var f = $(e.target).closest('form');
