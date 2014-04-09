@@ -26,27 +26,3 @@ Template.layout.events
         alert('logged out!')
 
 
-Template.google_drive.items = ->
-  Session.get("google_drive_items", [])
-
-Template.google_drive.events =
-  'click #google_drive_items a': (e, t)->
-    embedLink = $(e.target).data('embed_link')
-    console.log embedLink
-    $('iframe#embed_frame').attr('src', embedLink)
-
-Template.google_drive.rendered = _.once(->
-  url = "https://www.googleapis.com/drive/v2/files"
-  auth = 'Bearer ' + Meteor.user().services.google.accessToken
-  clientId = Accounts.loginServiceConfiguration.findOne({service: 'google'}).clientId
-  
-  Meteor.http.get url,
-    params: {key: clientId, maxResults: 10}
-    data: event
-    headers: {'Authorization': auth }
-    (err, result)->
-      unless err?
-        data = JSON.parse(result.content)
-        Session.set("google_drive_items", data.items)
-        console.log data
-)

@@ -1,5 +1,6 @@
 
 Meteor.saveFile = (file, name, callback)->
+  console.log file
   fileReader = new FileReader()
   name = file.name
   

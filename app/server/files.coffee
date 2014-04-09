@@ -1,5 +1,6 @@
 Meteor.methods
   saveFile: (blob, name, path, encoding)->
+    console.log 'here'
     fs = Npm.require('fs')
 
     cleanPath = (str)->

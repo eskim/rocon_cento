@@ -1,15 +1,60 @@
 <template name="modeling">
 <h2>Modeling</h2>
 
-<h3>Files</h3>
-<input type="file" accept="image/*">
+  <div class="row">
 
-<div class="images_wrap">
-  <ul class="images">
-  {{#each files}}
-    <li><a href="/data/{{name}}" target="_blank"><img src="/data/{{name}}" width="200" height="200"></a></li>
-  {{/each}}
-  </ul>
-</div>
+    <div class="col-md-3">
+      <div class="well">
+        <form name="modeling_upload">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Title</label>
+            <input type="text" class="form-control" name="title" placeholder="Title">
+          </div>
+          <div class="form-group">
+            <input type="file" accept="image/*">
+          </div>
+          <button type="submit" class="btn btn-default">Save</button>
+        </form>
+
+      </div>
+
+      <h3>Files</h3>
+
+      <div id="items_wrap">
+        <ul id="files">
+          {{#each google_drive_files}}
+            <li data-gdrive-file><img src="{{iconLink}}"> <a href="{{embedLink}}">{{title}}</a></li>
+          {{/each}}
+          {{#each files}}
+            <li data-local-file data-id="{{_id}}"><a href="/data/{{file_name}}" class="file_link" target="_blank">{{title}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+
+
+    </div>
+    <div class="col-md-9">
+      <div id="embed_area">
+        <iframe {{#if iframe_src}}src="{{iframe_src}}"{{/if}} frameborder="0" id="embed_frame" width="99%" height="99%;"></iframe>
+      </div>
+      {{#if selectedModel}}
+      <div class="comment_wrap">
+        <ul class="comments list-unstyled">
+          {{#each selectedModel.comments}} 
+          <li> 
+          <span>{{body}}</span> - <span> <img src="{{avatarUrl user_id}}" height="18"> <a href="#">{{username user_id}}</a></span> <span class="datetime">{{formatDate created 'YYYY-MM-DD HH:mm:ss'}}</span>
+          </li>
+          {{/each}} 
+        </ul>
+        <div class="comment_form text-right">
+          <form data-post_id="{{selectedModel._id}}">
+          <div class="form-group"><textarea class="comment_text form-control" rows="3"></textarea></div>
+          <button type="submit" class="btn btn-sm comment btn-default">Comment</button>
+          </form>
+
+        </div>
+      </div>
+      {{/if}}
+    </div>
 
 </template>
