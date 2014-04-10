@@ -60,7 +60,7 @@ Template.modeling.events({
 
 if(!Session.get('google_drive_files')){
   console.log('fetch google drive files');
-  Meteor.call('google_drive_files', function(err, result){
+  Meteor.call('googleDriveFiles', function(err, result){
 
     console.log("ERR:",err);
     if(!err){

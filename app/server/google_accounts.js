@@ -1,5 +1,5 @@
 Meteor.methods({
-  'google_drive_files': function(){
+  'googleDriveFiles': function(){
     var url = "https://www.googleapis.com/drive/v2/files";
     var auth = "Bearer " + Meteor.user().services.google.accessToken;
     var clientId = Accounts.loginServiceConfiguration.findOne({service: 'google'}).clientId;
@@ -22,16 +22,31 @@ Meteor.methods({
     // });
 
   },
-  'refresh_token': function(clientId, token){
-    Meteor.http.post("https://accounts.google.com/o/oauth2/token", {params: {
-      client_id: clientId,
-      client_secret: 'TKUUQQgUAgAdVySNxzk_r95b',
-      refresh_token: token,
+  'googleRefreshToken': function(){
+    var cfg = Accounts.loginServiceConfiguration.findOne({service:'google'});
+
+    var refreshToken = Meteor.user().services.google.refreshToken;
+    var result = Meteor.http.post("https://accounts.google.com/o/oauth2/token", {params: {
+      client_id: cfg.clientId,
+      client_secret: cfg.secret,
+      refresh_token: refreshToken,
       grant_type: 'refresh_token'
-    }}, function(e, res){
-      console.log('xxxxxxxxxxxxxx');
-      console.error(e); console.log(res);
-    })
+    }});
+
+
+    var newAccessToken = result.data.access_token;
+    var expiresIn = result.data.expires_in;
+
+
+    Meteor.users.update({_id: Meteor.userId()}, {$set:
+      {
+        'services.google.accessToken': newAccessToken,
+        'expiresAt': (+new Date()) + (1000 * expiresIn)
+      }
+    });
+
+    console.log(result);
+    return result;
 
   }
 
