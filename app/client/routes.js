@@ -58,7 +58,8 @@ Router.map(function(){
       console.log('DATA');
       var data = {};
       var id = Session.get('selectedModelId');
-      data['selectedModel'] = Cento.Posts.findOne({_id: id});
+      data.selectedModelId = id;
+      data.selectedModel = Cento.Posts.findOne({_id: id});
       // data.items = Session.get('model_items');
 
       data.files = Cento.Posts.find({type: 'modeling'});

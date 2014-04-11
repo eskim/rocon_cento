@@ -1,6 +1,22 @@
 Template.modeling.preserve({
   'iframe[src]': function(node){ return node.src; }
 });
+
+Template.modeling.helpers({
+  'isGoogleDriveFileSelected': function(){
+    var mid = Session.get('selectedModelId');
+    var m = Cento.Posts.findOne({_id: mid});
+    return (!m || m.type === 'google_drive');
+  },
+
+  'isLocalFileSelected': function(){
+    var mid = Session.get('selectedModelId');
+    var m = Cento.Posts.findOne({_id: mid});
+    return (m && m.type === 'modeling');
+  },
+
+});
+
 Template.modeling.events({
   'click form[name=modeling_upload] button': function(e, t){
     var f = $(e.target).closest('form');
@@ -25,8 +41,6 @@ Template.modeling.events({
     var a = $(e.target)[0];
     var li = $(e.target).closest('li');
 
-
-
     if(li.data('id')){
       Session.set('selectedModelId', li.data('id'));
     }else{
@@ -41,9 +55,13 @@ Template.modeling.events({
   'click .btn.comment': function(e, t){
     var f = $(e.target).closest('form');
     var id = f.data('post_id');
-    console.log('will comment ', id);
-    var txt = f.find('textarea').val()
-    console.log(JSON.stringify({$push: {comments:{body: txt, 'created':new Date(), user_id: Meteor.userId()}}}));
+    var txt = f.find('textarea').val();
+
+
+    if(!Session.get('selectedModel')){ // google docs
+      Cento.Posts.insert({_id: id, type: 'google_drive'});
+
+    }
     Cento.Posts.update({_id: id},{$push: {comments:{body: txt, 'created':new Date(), user_id: Meteor.userId()}}});
     f.find('textarea').val('');
     console.log('zzzz');
@@ -87,5 +105,7 @@ Template.modeling.rendered = function(){
   });
 
   items.each(function(i, e){ ul.append(e); });
+
+
 
 };

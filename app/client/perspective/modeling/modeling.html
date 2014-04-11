@@ -23,7 +23,7 @@
       <div id="items_wrap">
         <ul id="files">
           {{#each google_drive_files}}
-            <li data-gdrive-file><img src="{{iconLink}}"> <a href="{{embedLink}}">{{title}}</a></li>
+            <li data-gdrive-file data-id="{{id}}"><img src="{{iconLink}}"> <a href="{{embedLink}}">{{title}}</a></li>
           {{/each}}
           {{#each files}}
             <li data-local-file data-id="{{_id}}"><a href="/data/{{file_name}}" class="file_link" target="_blank">{{title}}</a></li>
@@ -34,20 +34,29 @@
 
     </div>
     <div class="col-md-9">
+      {{#if selectedModelId}}
+
+      {{#if isGoogleDriveFileSelected}}
       <div id="embed_area">
         <iframe {{#if iframe_src}}src="{{iframe_src}}"{{/if}} frameborder="0" id="embed_frame" width="99%" height="99%;"></iframe>
       </div>
-      {{#if selectedModel}}
+      {{/if}}
+      {{#if isLocalFileSelected}}
+      <div id="image_area">
+        <img src="{{iframe_src}}">
+      </div>
+      {{/if}}
       <div class="comment_wrap">
         <ul class="comments list-unstyled">
           {{#each selectedModel.comments}} 
           <li> 
-          <span>{{body}}</span> - <span> <img src="{{avatarUrl user_id}}" height="18"> <a href="#">{{username user_id}}</a></span> <span class="datetime">{{formatDate created 'YYYY-MM-DD HH:mm:ss'}}</span>
+          <span>{{body}}</span> - <span> <img src="{{avatarUrl user_id}}" height="18"> <a href="#">{{username user_id}}</a></span>
+          <span class="datetime">{{formatDate created 'YYYY-MM-DD HH:mm:ss'}}</span>
           </li>
           {{/each}} 
         </ul>
         <div class="comment_form text-right">
-          <form data-post_id="{{selectedModel._id}}">
+          <form data-post_id="{{selectedModelId}}">
           <div class="form-group"><textarea class="comment_text form-control" rows="3"></textarea></div>
           <button type="submit" class="btn btn-sm comment btn-default">Comment</button>
           </form>
