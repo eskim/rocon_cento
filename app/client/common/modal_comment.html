@@ -40,8 +40,10 @@
         <div class="attachment">
           {{#if fileIsImage file}}
           <img src="/data/{{file}}">
+          <a href="#" class="delete_attachment">&times;</a>
           {{else}}
           <img src="{{fileIconPath file}}"> <a href="/data/{{file}}">{{file}}</a>
+          <a href="#" class="delete_attachment">&times;</a>
           {{/if}}
         </div>
         {{/each}}

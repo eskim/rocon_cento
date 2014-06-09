@@ -84,6 +84,10 @@ Template.modal_comment.events({
     Session.set('currentCommentFiles', null);
     return false;
   },
+  'click .delete_attachment': function(){
+    Cento.Artifacts.remove({_id: this._id});
+    return false;
+  },
 
   'click .delete_comment': function(e, tpl){
     var pid = tpl.data._id;
