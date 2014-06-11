@@ -1,0 +1,39 @@
+<template name="history">
+
+<div id="history">
+  {{> modals}}
+
+<ul class="history_items list-unstyled">
+  {{#each getRelationHistory workItem}}
+  <li class="history_item">
+
+
+  <div class="avatar">
+    <img src="{{avatarUrl user_id}}" width="50" height="50"> 
+  </div>
+  <div class="detail">
+    {{#if type}}
+    <span class="label label-default">{{type}}</span>
+    {{else}}
+    <span class="label label-info">project created</span>
+    {{/if}}
+      <span class="datetime">{{formatDate created 'YYYY-MM-DD HH:mm:ss'}}</span>
+    <div class="datetime">
+    </div>
+    <h3><a href="#" class="show">{{title}}</a></h3>
+    {{#if description}}
+    <div class="descipton well">{{description}}</div>
+    {{/if}}
+  </div>
+  
+  </li>
+
+  {{/each}}
+
+
+</ul>
+
+</div>
+
+
+</template>

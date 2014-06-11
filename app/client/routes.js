@@ -103,6 +103,17 @@ Router.map(function(){
     path: '/projects/:solution/solutions',
     template: 'solutions'
   });
+  this.route('history', {
+    path: '/history/:work_item_id',
+    template: 'history',
+    data: function(){
+      var id = this.params.work_item_id;
+      var workItem = Cento.WorkItems.findOne({_id: id});
+      console.log(id, workItem);
+
+      return {workItem: workItem};
+    }
+  });
   this.route('projects_battleloom', {
     path: '/projects/:solution/battle_loom',
     template: 'battle_loom'
