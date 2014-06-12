@@ -13,17 +13,35 @@
   </div>
   <div class="detail">
     {{#if type}}
-    <span class="label label-default">{{type}}</span>
+    <span class="label label-default">{{username user_id}} created {{type}} item</span>
     {{else}}
-    <span class="label label-info">project created</span>
+    <span class="label label-info">project '{{title}}' created</span>
     {{/if}}
-      <span class="datetime">{{formatDate created 'YYYY-MM-DD HH:mm:ss'}}</span>
-    <div class="datetime">
-    </div>
-    <h3><a href="#" class="show">{{title}}</a></h3>
+    <span class="datetime">{{formatFromDate created}}</span>
+    <h3 class="title"><a href="#" class="show">{{title}}</a></h3>
     {{#if description}}
     <div class="descipton well">{{description}}</div>
     {{/if}}
+
+
+
+
+    <ul class="comments list-unstyled">
+      {{#each comments}} 
+      <li class="comment"> 
+      <div>
+        <span class="user">
+          <img  src="{{avatarUrl user_id}}" height="18">
+          <a href="#">{{username user_id}}</a>
+        </span>
+
+        <span class="body edit_trigger">{{nl2br body}}</span>
+      </div>
+      </li>
+
+      {{/each}} 
+
+    </ul>
   </div>
   
   </li>

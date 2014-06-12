@@ -66,6 +66,11 @@ UI.registerHelper('currentSolution', function(){
 UI.registerHelper('formatDate', function(dt, format){
   return moment(dt).format(format);
 });
+UI.registerHelper('formatFromDate', function(dt){
+  var a = moment();
+  var b = moment(dt);
+  return b.from(a);
+});
 
 UI.registerHelper('activeIfEq', function(a, b){
   if(a === b) {
